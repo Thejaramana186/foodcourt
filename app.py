@@ -241,7 +241,9 @@ def seed_data():
             menu_items = western_menus[menu_type]
             #pick items from western menu list
         else:
-            menu_items = western_menus['American'] 
+            menu_items = western_menus.get('American', western_menus.get('Italian', []))  # Default fallback
+
+
             #if not found ,use american menu as default
         
         # loop through each menu item
