@@ -1,0 +1,206 @@
+{% extends "layout.html" %}
+
+{% block title %}Sign In - FoodieHub{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gradient-to-br from-red-500 via-orange-500 to-pink-600 py-12 flex items-center justify-center relative overflow-hidden">
+    <div class="absolute inset-0 bg-black opacity-20"></div>
+    
+    <!-- Animated background elements -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-20 left-20 w-40 h-40 bg-white opacity-10 rounded-full animate-pulse"></div>
+        <div class="absolute bottom-20 right-20 w-60 h-60 bg-yellow-300 opacity-15 rounded-full animate-bounce" style="animation-duration: 4s;"></div>
+        <div class="absolute top-1/2 left-10 w-32 h-32 bg-blue-400 opacity-20 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+    </div>
+    
+    <div class="relative w-full max-w-lg mx-auto px-4 z-10">
+        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden backdrop-blur-lg border border-gray-200">
+            <!-- Enhanced Header -->
+            <div class="bg-gradient-to-br from-red-500 via-orange-500 to-pink-600 p-10 text-center relative">
+                <div class="absolute inset-0 bg-black opacity-10"></div>
+                <div class="relative z-10">
+                    <div class="w-24 h-24 bg-white rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+                        <i class="fas fa-utensils text-red-500 text-3xl"></i>
+                    </div>
+                    <h1 class="text-4xl font-black text-white mb-3">Welcome Back!</h1>
+                    <p class="text-white opacity-90 text-lg">Sign in to continue your culinary journey</p>
+                </div>
+            </div>
+            
+            <!-- Enhanced Form -->
+            <div class="p-10">
+                <form method="POST" class="space-y-8">
+                    <div class="space-y-2">
+                        <label for="username" class="block text-sm font-bold text-gray-700 mb-3 flex items-center">
+                            <i class="fas fa-user mr-3 text-red-500 text-lg"></i>Username
+                        </label>
+                        <input type="text" id="username" name="username" required
+                               class="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-red-500 focus:ring-opacity-20 focus:border-red-500 transition duration-300 text-lg"
+                               placeholder="Enter your username">
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <label for="password" class="block text-sm font-bold text-gray-700 mb-3 flex items-center">
+                            <i class="fas fa-lock mr-3 text-red-500 text-lg"></i>Password
+                        </label>
+                        <div class="relative">
+                            <input type="password" id="password" name="password" required
+                                   class="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-red-500 focus:ring-opacity-20 focus:border-red-500 transition duration-300 text-lg"
+                                   placeholder="Enter your password">
+                            <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition duration-200">
+                                <i id="password-icon" class="fas fa-eye text-xl"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <label class="flex items-center group cursor-pointer">
+                            <input type="checkbox" class="rounded-lg text-red-500 focus:ring-red-500 focus:ring-opacity-50 w-5 h-5">
+                            <span class="ml-3 text-gray-600 group-hover:text-gray-800 transition duration-200">Remember me</span>
+                        </label>
+                        <a href="#" class="text-red-600 hover:text-red-700 font-semibold transition duration-200">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" 
+                            class="w-full bg-gradient-to-r from-red-500 via-orange-500 to-pink-600 text-white py-5 rounded-2xl font-black text-xl hover:shadow-xl transform hover:scale-105 transition duration-300 relative overflow-hidden group">
+                        <span class="relative z-10 flex items-center justify-center space-x-3">
+                            <i class="fas fa-sign-in-alt text-xl group-hover:rotate-12 transition duration-300"></i>
+                            <span>Sign In</span>
+                        </span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-pink-600 to-red-600 opacity-0 group-hover:opacity-100 transition duration-300"></div>
+                    </button>
+                </form>
+                
+                <!-- Enhanced Social Login -->
+                <div class="mt-8">
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t-2 border-gray-200"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-4 bg-white text-gray-500 font-semibold">Or continue with</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 grid grid-cols-2 gap-4">
+                        <button class="group w-full inline-flex justify-center py-4 px-6 border-2 border-gray-200 rounded-2xl shadow-sm bg-white text-lg font-semibold text-gray-700 hover:bg-gray-50 hover:border-red-300 transition duration-300">
+                            <i class="fab fa-google text-red-500 text-xl mr-3 group-hover:scale-110 transition duration-300"></i>
+                            <span>Google</span>
+                        </button>
+                        <button class="group w-full inline-flex justify-center py-4 px-6 border-2 border-gray-200 rounded-2xl shadow-sm bg-white text-lg font-semibold text-gray-700 hover:bg-gray-50 hover:border-blue-300 transition duration-300">
+                            <i class="fab fa-facebook text-blue-600 text-xl mr-3 group-hover:scale-110 transition duration-300"></i>
+                            <span>Facebook</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Enhanced Register Link -->
+                <div class="mt-10 text-center">
+                    <p class="text-gray-600 text-lg">
+                        Don't have an account? 
+                        <a href="{{ url_for('register.register') }}" class="text-red-600 hover:text-red-700 font-bold transition duration-200 ml-1">Join FoodieHub</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Enhanced Features -->
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-center text-white">
+            <div class="p-6 backdrop-blur-sm bg-white bg-opacity-10 rounded-2xl">
+                <i class="fas fa-bolt text-3xl mb-3 text-yellow-300"></i>
+                <p class="font-semibold text-lg">Lightning Fast Delivery</p>
+            </div>
+            <div class="p-6 backdrop-blur-sm bg-white bg-opacity-10 rounded-2xl">
+                <i class="fas fa-shield-alt text-3xl mb-3 text-green-300"></i>
+                <p class="font-semibold text-lg">100% Secure Payment</p>
+            </div>
+            <div class="p-6 backdrop-blur-sm bg-white bg-opacity-10 rounded-2xl">
+                <i class="fas fa-crown text-3xl mb-3 text-yellow-300"></i>
+                <p class="font-semibold text-lg">Premium Quality</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+function togglePassword() {
+    const passwordInput = document.getElementById('password');
+    const passwordIcon = document.getElementById('password-icon');
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        passwordIcon.classList.remove('fa-eye');
+        passwordIcon.classList.add('fa-eye-slash');
+    } else {
+        passwordInput.type = 'password';
+        passwordIcon.classList.remove('fa-eye-slash');
+        passwordIcon.classList.add('fa-eye');
+    }
+}
+
+// Enhanced form validation
+document.querySelector('form').addEventListener('submit', function(e) {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    
+    if (!username || !password) {
+        e.preventDefault();
+        showNotification('Please fill in all fields', 'error');
+        return;
+    }
+    
+    if (username.length < 3) {
+        e.preventDefault();
+        showNotification('Username must be at least 3 characters long', 'error');
+        return;
+    }
+    
+    if (password.length < 6) {
+        e.preventDefault();
+        showNotification('Password must be at least 6 characters long', 'error');
+        return;
+    }
+    
+    // Show loading state
+    const submitBtn = this.querySelector('button[type="submit"]');
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Signing In...';
+    submitBtn.disabled = true;
+});
+
+// Enhanced notification function
+function showNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type} fixed top-24 right-4 z-50 px-6 py-4 rounded-2xl shadow-2xl`;
+    notification.innerHTML = `
+        <div class="flex items-center space-x-3">
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'} text-xl"></i>
+            <span class="font-semibold">${message}</span>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        notification.style.opacity = '0';
+        setTimeout(() => notification.remove(), 300);
+    }, 4000);
+}
+
+// Auto-focus first input
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('username').focus();
+});
+
+// Add input animation effects
+document.querySelectorAll('input').forEach(input => {
+    input.addEventListener('focus', function() {
+        this.parentElement.classList.add('scale-105');
+    });
+    
+    input.addEventListener('blur', function() {
+        this.parentElement.classList.remove('scale-105');
+    });
+});
+</script>
+{% endblock %}

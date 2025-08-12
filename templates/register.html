@@ -1,0 +1,187 @@
+{% extends "layout.html" %}
+
+{% block title %}Join FoodieHub - Premium Food Delivery{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gradient-to-br from-red-500 via-orange-500 to-pink-600 py-12 relative overflow-hidden">
+    <div class="absolute inset-0 bg-black opacity-20"></div>
+    
+    <!-- Animated background elements -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-10 right-10 w-64 h-64 bg-white opacity-10 rounded-full animate-pulse"></div>
+        <div class="absolute bottom-10 left-10 w-80 h-80 bg-yellow-300 opacity-15 rounded-full animate-bounce" style="animation-duration: 5s;"></div>
+        <div class="absolute top-1/2 right-1/3 w-48 h-48 bg-blue-400 opacity-20 rounded-full animate-pulse" style="animation-delay: 2s;"></div>
+    </div>
+    
+    <div class="relative w-full max-w-4xl mx-auto px-4 z-10">
+        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden backdrop-blur-lg border border-gray-200">
+            <!-- Enhanced Header -->
+            <div class="bg-gradient-to-br from-red-500 via-orange-500 to-pink-600 p-10 text-center relative">
+                <div class="absolute inset-0 bg-black opacity-10"></div>
+                <div class="relative z-10">
+                    <div class="w-24 h-24 bg-white rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+                        <i class="fas fa-user-plus text-red-500 text-3xl"></i>
+                    </div>
+                    <h1 class="text-4xl font-black text-white mb-3">Join FoodieHub!</h1>
+                    <p class="text-white opacity-90 text-lg">Create your premium account and unlock a world of flavors</p>
+                </div>
+            </div>
+            
+            <!-- Enhanced Form -->
+            <div class="p-10">
+                <form method="POST" class="space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Username -->
+                        <div class="space-y-2">
+                            <label for="username" class="block text-sm font-bold text-gray-700 mb-3 flex items-center">
+                                <i class="fas fa-user mr-3 text-red-500 text-lg"></i>Username *
+                            </label>
+                            <input type="text" id="username" name="username" required
+                                   class="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-red-500 focus:ring-opacity-20 focus:border-red-500 transition duration-300 text-lg"
+                                   placeholder="Choose a unique username">
+                            <p class="text-xs text-gray-500 mt-2 flex items-center">
+                                <i class="fas fa-info-circle mr-2"></i>Must be at least 3 characters
+                            </p>
+                        </div>
+                        
+                        <!-- Email -->
+                        <div class="space-y-2">
+                            <label for="email" class="block text-sm font-bold text-gray-700 mb-3 flex items-center">
+                                <i class="fas fa-envelope mr-3 text-red-500 text-lg"></i>Email Address *
+                            </label>
+                            <input type="email" id="email" name="email" required
+                                   class="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-red-500 focus:ring-opacity-20 focus:border-red-500 transition duration-300 text-lg"
+                                   placeholder="your@email.com">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Password -->
+                        <div class="space-y-2">
+                            <label for="password" class="block text-sm font-bold text-gray-700 mb-3 flex items-center">
+                                <i class="fas fa-lock mr-3 text-red-500 text-lg"></i>Password *
+                            </label>
+                            <div class="relative">
+                                <input type="password" id="password" name="password" required
+                                       class="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-red-500 focus:ring-opacity-20 focus:border-red-500 transition duration-300 text-lg"
+                                       placeholder="Create a strong password">
+                                <button type="button" onclick="togglePassword('password')" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition duration-200">
+                                    <i id="password-icon" class="fas fa-eye text-xl"></i>
+                                </button>
+                            </div>
+                            <div id="password-strength" class="mt-2 text-sm"></div>
+                        </div>
+                        
+                        <!-- Confirm Password -->
+                        <div class="space-y-2">
+                            <label for="confirm_password" class="block text-sm font-bold text-gray-700 mb-3 flex items-center">
+                                <i class="fas fa-lock mr-3 text-red-500 text-lg"></i>Confirm Password *
+                            </label>
+                            <div class="relative">
+                                <input type="password" id="confirm_password" name="confirm_password" required
+                                       class="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-red-500 focus:ring-opacity-20 focus:border-red-500 transition duration-300 text-lg"
+                                       placeholder="Confirm your password">
+                                <button type="button" onclick="togglePassword('confirm_password')" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition duration-200">
+                                    <i id="confirm-password-icon" class="fas fa-eye text-xl"></i>
+                                </button>
+                            </div>
+                            <div id="password-match" class="mt-2 text-sm"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Phone -->
+                        <div class="space-y-2">
+                            <label for="phone" class="block text-sm font-bold text-gray-700 mb-3 flex items-center">
+                                <i class="fas fa-phone mr-3 text-red-500 text-lg"></i>Phone Number *
+                            </label>
+                            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" maxlength="10" required
+                                   class="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-red-500 focus:ring-opacity-20 focus:border-red-500 transition duration-300 text-lg"
+                                   placeholder="Enter 10-digit phone number">
+                            <p class="text-xs text-gray-500 mt-2 flex items-center">
+                                <i class="fas fa-info-circle mr-2"></i>Only 10 digits, no country code
+                            </p>
+                        </div>
+                        
+                        <!-- City -->
+                        <div class="space-y-2">
+                            <label for="city" class="block text-sm font-bold text-gray-700 mb-3 flex items-center">
+                                <i class="fas fa-map-marker-alt mr-3 text-red-500 text-lg"></i>City
+                            </label>
+                            <select id="city" name="city" class="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-red-500 focus:ring-opacity-20 focus:border-red-500 transition duration-300 text-lg">
+                                <option value="">Select your city</option>
+                                <option value="mumbai">Mumbai</option>
+                                <option value="delhi">Delhi</option>
+                                <option value="bangalore">Bangalore</option>
+                                <option value="hyderabad">Hyderabad</option>
+                                <option value="pune">Pune</option>
+                                <option value="kolkata">Kolkata</option>
+                                <option value="chennai">Chennai</option>
+                                <option value="ahmedabad">Ahmedabad</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Address -->
+                    <div class="space-y-2">
+                        <label for="address" class="block text-sm font-bold text-gray-700 mb-3 flex items-center">
+                            <i class="fas fa-home mr-3 text-red-500 text-lg"></i>Delivery Address
+                        </label>
+                        <textarea id="address" name="address" rows="4"
+                                  class="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-red-500 focus:ring-opacity-20 focus:border-red-500 transition duration-300 text-lg resize-none"
+                                  placeholder="Enter your complete delivery address for seamless food delivery..."></textarea>
+                    </div>
+                    
+                    <!-- Terms -->
+                    <div class="space-y-6">
+                        <label class="flex items-start group cursor-pointer p-4 rounded-2xl border-2 border-gray-200 hover:border-red-300 transition duration-300">
+                            <input type="checkbox" id="terms" required class="mt-1 rounded-lg text-red-500 focus:ring-red-500 focus:ring-opacity-50 w-5 h-5">
+                            <span class="ml-4 text-gray-600 group-hover:text-gray-800 transition duration-200">
+                                I agree to the <a href="#" class="text-red-600 hover:text-red-700 font-semibold">Terms of Service</a> 
+                                and <a href="#" class="text-red-600 hover:text-red-700 font-semibold">Privacy Policy</a>
+                            </span>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" 
+                            class="w-full bg-gradient-to-r from-red-500 via-orange-500 to-pink-600 text-white py-6 rounded-2xl font-black text-2xl hover:shadow-xl transform hover:scale-105 transition duration-300 relative overflow-hidden group">
+                        <span class="relative z-10 flex items-center justify-center space-x-4">
+                            <i class="fas fa-rocket text-2xl group-hover:rotate-12 transition duration-300"></i>
+                            <span>Join FoodieHub Premium</span>
+                            <i class="fas fa-crown text-2xl group-hover:rotate-12 transition duration-300"></i>
+                        </span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-pink-600 to-red-600 opacity-0 group-hover:opacity-100 transition duration-300"></div>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+function togglePassword(inputId) {
+    const passwordInput = document.getElementById(inputId);
+    const iconId = inputId === 'password' ? 'password-icon' : 'confirm-password-icon';
+    const passwordIcon = document.getElementById(iconId);
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        passwordIcon.classList.remove('fa-eye');
+        passwordIcon.classList.add('fa-eye-slash');
+    } else {
+        passwordInput.type = 'password';
+        passwordIcon.classList.remove('fa-eye-slash');
+        passwordIcon.classList.add('fa-eye');
+    }
+}
+
+// Phone number restriction - only digits, max 10
+document.getElementById('phone').addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 10) {
+        value = value.substring(value.length - 10);
+    }
+    e.target.value = value;
+});
+</script>
+{% endblock %}

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}FoodieHub - Premium Food Delivery{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    <!-- Enhanced Navigation -->
+    <nav class="bg-white shadow-xl sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center">
+                    <a href="{{ url_for('index') }}" class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-gradient-to-br from-red-500 via-orange-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg">
+                            <i class="fas fa-utensils text-white text-xl"></i>
+                        </div>
+                        <span class="text-3xl font-black gradient-text-primary">FoodieHub</span>
+                    </a>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="{{ url_for('index') }}" class="text-gray-700 hover:text-red-600 font-medium transition duration-300 relative group">
+                        <span>Home</span>
+                        <span class="absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-red-500 to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                    </a>
+                    <a href="{{ url_for('restaurant.restaurants') }}" class="text-gray-700 hover:text-red-600 font-medium transition duration-300 relative group">
+                        <span>Restaurants</span>
+                        <span class="absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-red-500 to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                    </a>
+                    {% if session.user_id %}
+                        <a href="{{ url_for('cart.cart') }}" class="text-gray-700 hover:text-red-600 font-medium transition duration-300 relative group">
+                            <div class="flex items-center space-x-2">
+                                <div class="relative">
+                                    <i class="fas fa-shopping-cart text-lg"></i>
+                                    <span id="cart-count" class="absolute -top-2 -right-2 w-5 h-5 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full flex items-center justify-center font-bold cart-badge">0</span>
+                                </div>
+                                <span>Cart</span>
+                            </div>
+                            <span class="absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-red-500 to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                        </a>
+                        <a href="{{ url_for('order_history.order_history') }}" class="text-gray-700 hover:text-red-600 font-medium transition duration-300 relative group">
+                            <span>Orders</span>
+                            <span class="absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-red-500 to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                        </a>
+                        <div class="relative">
+                            <button id="user-menu-button" class="text-gray-700 hover:text-red-600 font-medium transition duration-300 flex items-center space-x-2 p-2 rounded-xl hover:bg-gray-100">
+                                <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-user text-white text-sm"></i>
+                                </div>
+                                <span class="font-semibold">{{ session.username }}</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            <div id="user-menu" class="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl py-2 opacity-0 invisible transform scale-95 transition-all duration-300 z-50 border border-gray-100">
+                                <div class="px-4 py-3 border-b border-gray-100">
+                                    <p class="text-sm font-semibold text-gray-900">{{ session.username }}</p>
+                                    <p class="text-xs text-gray-500">Premium Member</p>
+                                </div>
+                                <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition duration-200">
+                                    <i class="fas fa-user mr-3 text-blue-500"></i>My Profile
+                                </a>
+                                <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition duration-200">
+                                    <i class="fas fa-heart mr-3 text-red-500"></i>Favorites
+                                </a>
+                                <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition duration-200">
+                                    <i class="fas fa-cog mr-3 text-gray-500"></i>Settings
+                                </a>
+                                <div class="border-t border-gray-100 mt-1 pt-1">
+                                    <a href="{{ url_for('logout.logout') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition duration-200">
+                                        <i class="fas fa-sign-out-alt mr-3"></i>Logout
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="{{ url_for('login.login') }}" class="text-gray-700 hover:text-red-600 font-medium transition duration-300">Login</a>
+                        <a href="{{ url_for('register.register') }}" class="bg-gradient-to-r from-red-500 via-orange-500 to-pink-500 text-white px-6 py-3 rounded-2xl font-semibold hover:shadow-lg transform hover:scale-105 transition duration-300">
+                            Join Now
+                        </a>
+                    {% endif %}
+                </div>
+                
+                <!-- Enhanced Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-red-600 p-2 rounded-lg hover:bg-gray-100 transition duration-200">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Enhanced Mobile menu -->
+            <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-100">
+                <div class="px-4 py-6 space-y-3">
+                    <a href="{{ url_for('index') }}" class="block px-4 py-3 text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-xl transition duration-200">
+                        <i class="fas fa-home mr-3"></i>Home
+                    </a>
+                    <a href="{{ url_for('restaurant.restaurants') }}" class="block px-4 py-3 text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-xl transition duration-200">
+                        <i class="fas fa-store mr-3"></i>Restaurants
+                    </a>
+                    {% if session.user_id %}
+                        <a href="{{ url_for('cart.cart') }}" class="block px-4 py-3 text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-xl transition duration-200">
+                            <i class="fas fa-shopping-cart mr-3"></i>Cart
+                        </a>
+                        <a href="{{ url_for('order_history.order_history') }}" class="block px-4 py-3 text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-xl transition duration-200">
+                            <i class="fas fa-history mr-3"></i>Orders
+                        </a>
+                        <div class="border-t border-gray-200 pt-4 mt-4">
+                            <div class="px-4 py-2 bg-gray-50 rounded-xl mb-3">
+                                <p class="text-sm font-semibold text-gray-900">{{ session.username }}</p>
+                                <p class="text-xs text-gray-500">Premium Member</p>
+                            </div>
+                            <a href="#" class="block px-4 py-3 text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-xl transition duration-200">
+                                <i class="fas fa-user mr-3"></i>Profile
+                            </a>
+                            <a href="#" class="block px-4 py-3 text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-xl transition duration-200">
+                                <i class="fas fa-cog mr-3"></i>Settings
+                            </a>
+                            <a href="{{ url_for('logout.logout') }}" class="block px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl transition duration-200">
+                                <i class="fas fa-sign-out-alt mr-3"></i>Logout
+                            </a>
+                        </div>
+                    {% else %}
+                        <a href="{{ url_for('login.login') }}" class="block px-4 py-3 text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-xl transition duration-200">
+                            <i class="fas fa-sign-in-alt mr-3"></i>Login
+                        </a>
+                        <a href="{{ url_for('register.register') }}" class="block px-4 py-3 text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-xl transition duration-200">
+                            <i class="fas fa-user-plus mr-3"></i>Register
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Enhanced Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="fixed top-24 right-4 z-50 space-y-3">
+                {% for category, message in messages %}
+                    <div class="notification {{ category }} flex items-center space-x-3 min-w-96">
+                        {% if category == 'success' %}
+                            <i class="fas fa-check-circle text-xl"></i>
+                        {% elif category == 'error' %}
+                            <i class="fas fa-exclamation-circle text-xl"></i>
+                        {% elif category == 'warning' %}
+                            <i class="fas fa-exclamation-triangle text-xl"></i>
+                        {% else %}
+                            <i class="fas fa-info-circle text-xl"></i>
+                        {% endif %}
+                        <div class="flex-1">
+                            <p class="font-semibold">{{ message }}</p>
+                        </div>
+                        <button onclick="this.parentElement.remove()" class="text-white hover:text-gray-200 text-xl">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Main content -->
+    <main class="min-h-screen">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Enhanced Footer -->
+    <footer class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-red-500 via-orange-500 to-pink-500 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-utensils text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold gradient-text-primary">FoodieHub</h3>
+                    </div>
+                    <p class="text-gray-300 leading-relaxed">Your premium food delivery service, bringing gourmet experiences to your doorstep with love and care.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center hover:bg-blue-500 transition duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-700 transition duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700 transition duration-300">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 text-white">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="{{ url_for('index') }}" class="text-gray-300 hover:text-white transition duration-200 flex items-center"><i class="fas fa-home mr-2 text-red-500"></i>Home</a></li>
+                        <li><a href="{{ url_for('restaurant.restaurants') }}" class="text-gray-300 hover:text-white transition duration-200 flex items-center"><i class="fas fa-store mr-2 text-orange-500"></i>Restaurants</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-200 flex items-center"><i class="fas fa-info-circle mr-2 text-blue-500"></i>About Us</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-200 flex items-center"><i class="fas fa-envelope mr-2 text-green-500"></i>Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 text-white">Support</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-200 flex items-center"><i class="fas fa-question-circle mr-2 text-purple-500"></i>Help Center</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-200 flex items-center"><i class="fas fa-shield-alt mr-2 text-green-500"></i>Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-200 flex items-center"><i class="fas fa-file-contract mr-2 text-blue-500"></i>Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-200 flex items-center"><i class="fas fa-headset mr-2 text-red-500"></i>24/7 Support</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 text-white">Stay Connected</h4>
+                    <p class="text-gray-300 mb-4">Subscribe to get special offers and updates</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="flex-1 px-4 py-3 rounded-l-xl border-0 text-gray-900 focus:ring-2 focus:ring-red-500">
+                        <button class="bg-gradient-to-r from-red-500 to-pink-500 px-6 py-3 rounded-r-xl hover:from-red-600 hover:to-pink-600 transition duration-300">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="mt-6">
+                        <p class="text-gray-300 text-sm mb-2">Download our app</p>
+                        <div class="flex space-x-3">
+                            <a href="#" class="bg-black rounded-lg p-2 hover:bg-gray-800 transition duration-300">
+                                <img src="https://images.pexels.com/photos/4388164/pexels-photo-4388164.png?auto=compress&cs=tinysrgb&w=100" alt="App Store" class="h-8">
+                            </a>
+                            <a href="#" class="bg-black rounded-lg p-2 hover:bg-gray-800 transition duration-300">
+                                <img src="https://images.pexels.com/photos/4388164/pexels-photo-4388164.png?auto=compress&cs=tinysrgb&w=100" alt="Google Play" class="h-8">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-12 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                    <p class="text-gray-400 text-center md:text-left">&copy; 2024 FoodieHub. All rights reserved. Made with ❤️ for food lovers.</p>
+                    <div class="flex items-center space-x-6 text-sm text-gray-400">
+                        <span>🌟 Rated 4.8/5 by customers</span>
+                        <span>🚚 1M+ deliveries completed</span>
+                        <span>⭐ 50K+ happy customers</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Enhanced Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+        
+        // Enhanced User menu dropdown toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const userMenuButton = document.getElementById('user-menu-button');
+            const userMenu = document.getElementById('user-menu');
+            
+            if (userMenuButton && userMenu) {
+                userMenuButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const isVisible = !userMenu.classList.contains('opacity-0');
+                    
+                    if (isVisible) {
+                        userMenu.classList.add('opacity-0', 'invisible', 'scale-95');
+                        userMenu.classList.remove('opacity-100', 'visible', 'scale-100');
+                    } else {
+                        userMenu.classList.remove('opacity-0', 'invisible', 'scale-95');
+                        userMenu.classList.add('opacity-100', 'visible', 'scale-100');
+                    }
+                });
+                
+                document.addEventListener('click', function(e) {
+                    if (!userMenuButton.contains(e.target) && !userMenu.contains(e.target)) {
+                        userMenu.classList.add('opacity-0', 'invisible', 'scale-95');
+                        userMenu.classList.remove('opacity-100', 'visible', 'scale-100');
+                    }
+                });
+                
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape') {
+                        userMenu.classList.add('opacity-0', 'invisible', 'scale-95');
+                        userMenu.classList.remove('opacity-100', 'visible', 'scale-100');
+                    }
+                });
+            }
+        });
+
+        // Enhanced auto-hide flash messages
+        setTimeout(() => {
+            const alerts = document.querySelectorAll('.notification');
+            alerts.forEach(alert => {
+                alert.style.transform = 'translateX(100%)';
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 300);
+            });
+        }, 5000);
+
+        // Add smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add loading states to forms
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function() {
+                const submitBtn = form.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
+                    submitBtn.disabled = true;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
